@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: profile-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: profile_app
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+
+  backend:
+    build: ./backend
+    container_name: profile-backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/usr/src/app
+    environment:
+        CHOKIDAR_USEPOLLING: "true"
+        CHOKIDAR_INTERVAL: 100
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: npm run start:dev
+    
+  frontend:
+    build: ./frontend
+    container_name: profile-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+    command: ["npm", "run", "dev"]
+
+
+volumes:
+  pgdata:
