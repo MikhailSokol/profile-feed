@@ -20,6 +20,14 @@
 
 ---
 
+
+## Требования перед запуском
+
+- Node.js >= 18
+- npm
+- Docker
+- Docker Compose v2
+
 ## Запуск через Docker 
 
 git clone git@github.com:MikhailSokol/profile-feed.git
