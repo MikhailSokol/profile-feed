@@ -16,7 +16,7 @@
 
 ### DevOps
 - Docker
-- docker-compose
+- docker compose
 
 ---
 
@@ -25,4 +25,4 @@
 git clone git@github.com:MikhailSokol/profile-feed.git
 cd profile-feed
 
-docker-compose up --build
+docker compose up
