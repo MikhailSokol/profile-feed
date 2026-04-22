@@ -31,6 +31,7 @@
 ## Запуск через Docker 
 
 git clone git@github.com:MikhailSokol/profile-feed.git
+
 cd profile-feed
 
 docker compose up
